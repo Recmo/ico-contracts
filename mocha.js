@@ -1,8 +1,8 @@
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import chaiBignumber from 'chai-bignumber';
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiBignumber from "chai-bignumber";
 
-const GetNumber = artifacts.require('./test/GetNumber.sol');
+const GetNumber = artifacts.require("./test/GetNumber.sol");
 
 before(async () => {
   const getNumber = await GetNumber.new();

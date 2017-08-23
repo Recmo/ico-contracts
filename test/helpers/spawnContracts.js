@@ -1,13 +1,13 @@
-import gasCost from './gasCost';
+import gasCost from "./gasCost";
 
-const LockedAccount = artifacts.require('LockedAccount');
-const EtherToken = artifacts.require('EtherToken');
-const NeumarkController = artifacts.require('NeumarkController');
-const NeumarkFactory = artifacts.require('NeumarkFactory');
-const Neumark = artifacts.require('Neumark');
-const Curve = artifacts.require('Curve');
-const TestCommitment = artifacts.require('TestCommitment');
-const WhitelistedCommitment = artifacts.require('WhitelistedCommitment');
+const LockedAccount = artifacts.require("LockedAccount");
+const EtherToken = artifacts.require("EtherToken");
+const NeumarkController = artifacts.require("NeumarkController");
+const NeumarkFactory = artifacts.require("NeumarkFactory");
+const Neumark = artifacts.require("Neumark");
+const Curve = artifacts.require("Curve");
+const TestCommitment = artifacts.require("TestCommitment");
+const WhitelistedCommitment = artifacts.require("WhitelistedCommitment");
 
 export let neumark;
 export let neumarkController;
@@ -16,7 +16,7 @@ export let lockedAccount;
 export let curve;
 export let commitment;
 export let feePool;
-export const operatorWallet = '0x55d7d863a155f75c5139e20dcbda8d0075ba2a1c';
+export const operatorWallet = "0x55d7d863a155f75c5139e20dcbda8d0075ba2a1c";
 
 export const days = 24 * 60 * 60;
 export const months = 30 * 24 * 60 * 60;
