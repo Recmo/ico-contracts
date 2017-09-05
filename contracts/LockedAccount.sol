@@ -161,6 +161,9 @@ contract LockedAccount is
         Agreement(forkArbiter, agreementUri)
         Reclaimable()
     {
+        require(assetToken != 0x0);
+        require(neumark != 0x0);
+        require(assetToken != neumark);
         ASSET_TOKEN = assetToken;
         NEUMARK = neumark;
         LOCK_PERIOD = lockPeriod;
@@ -187,6 +190,7 @@ contract LockedAccount is
 
         // transfer to self yourself
         require(ASSET_TOKEN.transferFrom(msg.sender, address(this), amount));
+
         Account storage a = _accounts[investor];
         a.balance = addBalance(a.balance, amount);
         a.neumarksDue += neumarks;
@@ -399,23 +403,63 @@ contract LockedAccount is
         public
         onlyStates(LockState.AcceptingUnlocks, LockState.ReleaseAll)
     {
-        require(msg.sender == address(NEUMARK));
-        require(_data.length == 0);
-        require(amount == _accounts[investor].neumarksDue);
+        require(amount > 0);
 
-        // this will check if amount is enough to unlock
-        require(unlockFor(from) == Status.SUCCESS);
+        if (msg.sender == ASSET_TOKEN) {
+            require(msg.sender == _controller);
+            require(data.length == 20);
+            address investor = address(data);
+            uint256 neumarks = ...;
+            lock(investor, amount, neumarks);
+            return;
+        }
 
-        // we assume external call so return value will be lost to clients
-        // that's why we throw above
-        return true;
+        if (msg.sender == NEUMARK) {
+            receivedNeumarks(from, amount);
+            return;
+        }
+
+        revert();
     }
 
     ////////////////////////
     // Internal functions
     ////////////////////////
 
-    function addBalance(uint balance, uint amount)
+    function receivedAssets(address from, uint256 amount)
+        private
+        onlyState(LockState.AcceptingLocks)
+        acceptAgreement(from)
+    {
+        require(amount > 0);
+
+        Account storage a = _accounts[investor];
+        a.balance = addBalance(a.balance, amount);
+        a.neumarksDue += neumarks;
+        assert(isSafeMultiplier(a.neumarksDue));
+        if (a.unlockDate == 0) {
+
+            // this is new account - unlockDate always > 0
+            _totalInvestors += 1;
+            a.unlockDate = currentTime() + LOCK_PERIOD;
+        }
+        _accounts[investor] = a;
+        LogFundsLocked(investor, amount, neumarks);
+    }
+
+
+    function receivedNeumarks(address from, uint256 amount)
+        private
+    {
+        require(msg.sender == address(NEUMARK));
+        require(amount == _accounts[investor].neumarksDue);
+
+        // this will check if amount is enough to unlock
+        require(unlockFor(from) == Status.SUCCESS);
+    }
+
+
+    function addBalance(uint256 balance, uint256 amount)
         internal
         returns (uint)
     {
