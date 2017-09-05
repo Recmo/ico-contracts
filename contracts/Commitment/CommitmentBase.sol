@@ -162,7 +162,14 @@ contract CommitmentBase is
 
         // convert weis into euro
         uint256 euroUlps = convertToEUR(msg.value);
-        FundsInvested(msg.sender, msg.value, PAYMENT_TOKEN, euroUlps, neumarks, NEUMARK);
+        LogFundsInvested(
+            msg.sender,
+            msg.value,
+            PAYMENT_TOKEN,
+            euroUlps,
+            neumarks,
+            NEUMARK
+        );
     }
 
     /// when commitment end criteria are met ANYONE can finalize
