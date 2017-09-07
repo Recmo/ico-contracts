@@ -26,6 +26,9 @@ contract AccessRoles {
 
     bytes32 internal constant ROLE_FORK_ARBITER = 0x82e9340eaa1325512ef04d5e85a62cfe9ec74ecfe2973fa5b393ae327dcf43e0;
 
+    // Can start a migration process on migratable contracts
+    bytes32 internal constant ROLE_MIGRATION_ADMIN = 0x851dbd8dbf964ea981407c481c2ca62bfc367f171480f0d9b42efd0ba613139e;
+
     // allows to deposit EUR-T and allow addresses to send and receive EUR-T. keccak256("EurtDepositManager")
-    bytes32 internal constant ROLE_EURT_DEPOSIT_MANAGER =0x7c8ecdcba80ce87848d16ad77ef57cc196c208fc95c5638e4a48c681a34d4fe7;
+    bytes32 internal constant ROLE_EURT_DEPOSIT_MANAGER = 0x7c8ecdcba80ce87848d16ad77ef57cc196c208fc95c5638e4a48c681a34d4fe7;
 }
